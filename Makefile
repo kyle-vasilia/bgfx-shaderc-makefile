@@ -27,16 +27,19 @@ os_flag := --platform linux
 output  := $(output)/Linux
 endif
 endif 
+	
 
 
-all : ${vertex_output} ${fragment_output}
-	[ -d $(output) ] || mkdir $(output)
+all : $(vertex_output) $(fragment_output)
+	
 .PHONY : all 
 
 $(output)/%_vert.bin : $(source)/%.vert
+	[ -d $(output) ] || mkdir $(output)
 	$(shaderc) --varyingdef $(patsubst %.vert, %.def, $^) \
 	$(vertex_flag) -o $@ -f $^
 
 $(output)/%_frag.bin : $(source)/%.frag
+	[ -d $(output) ] || mkdir $(output)
 	$(shaderc) --varyingdef $(patsubst %.frag, %.def, $^) \
 	$(fragment_flag) -o $@ -f $^
